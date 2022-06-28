@@ -3,7 +3,7 @@
     <Nav class="nav"/>
     Feed
     <div class="body">
-      <Post class="post" v-for="i in 10" :key="i"></Post>
+      <Post v-for="i in 10" :key="i"></Post>
     </div>
     1/1
   </div>
@@ -19,21 +19,8 @@ export default {
 </script>
 
 <style scoped>
-/*.container {*/
-/*  display: grid;*/
-/*  grid-template-columns: auto auto;*/
-/*}*/
 .body {
   width: 80%;
   margin: 0px 50px 0px 150px;
-}
-.post {
-  margin: 10px;
-}
-.nav {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  width: fit-content;
 }
 </style>

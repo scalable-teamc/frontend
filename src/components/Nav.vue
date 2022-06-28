@@ -31,6 +31,9 @@
   position: sticky;
   float: left;
   margin: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }
 
 .rounded {
