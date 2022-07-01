@@ -5,7 +5,7 @@
         <div class="rounded"><img src="../assets/tweetie1.png"/></div>
       </li>
       <li>
-        <b-icon icon="house"></b-icon>
+        <router-link to="/home"><b-icon icon="house"></b-icon></router-link>
       </li>
       <li>
         <b-icon icon="bell"></b-icon>
@@ -17,7 +17,7 @@
         <b-icon icon="archive"></b-icon>
       </li>
       <li>
-        <b-icon icon="person"></b-icon>
+        <router-link to="/profile"><b-icon icon="person"></b-icon></router-link>
       </li>
     </ul>
   </div>

@@ -14,7 +14,7 @@
     </div>
     <div class="action">
       <b-icon icon="heart"></b-icon>
-      <b-icon icon="chat"></b-icon>
+<!--      <b-icon icon="chat"></b-icon>-->
       <b-icon icon="reply"></b-icon>
       <b-icon icon="bookmark"></b-icon>
     </div>
@@ -53,6 +53,7 @@ span {
 .action svg {
   margin-left: 40px;
   margin-right: 40px;
+  cursor: pointer;
 }
 </style>
 

@@ -42,7 +42,4 @@ export default {
 img {
   margin-top: 30px;
 }
-.profile {
-  color: white;
-}
 </style>
