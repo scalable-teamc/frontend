@@ -26,9 +26,8 @@
 <style scoped>
 .container {
   background-color: #ffc400;
-  width: 90px;
+  width: 80px;
   height: 100vh;
-  position: sticky;
   float: left;
   margin: 0;
   position: -webkit-sticky;
@@ -45,7 +44,7 @@
 }
 
 img {
-  height: 60px;
+  height: 50px;
 }
 
 li {

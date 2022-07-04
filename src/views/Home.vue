@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <Nav class="nav"/>
+    <NewPost />
     Feed
     <div class="body">
       <Post v-for="i in 10" :key="i"></Post>
@@ -12,9 +13,10 @@
 <script>
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
+import NewPost from "../components/NewPost.vue"
 
 export default {
-  components: {Nav, Post}
+  components: {Nav, Post, NewPost}
 }
 </script>
 

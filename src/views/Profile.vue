@@ -1,6 +1,7 @@
 <template>
   <div>
     <Nav class="nav"/>
+    <NewPost />
 
     <div class="body">
       <img src="../assets/tweetie.png" width="200px">
@@ -21,6 +22,7 @@
 <script>
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
+import NewPost from "../components/NewPost.vue"
 
 export default {
   data() {
@@ -29,7 +31,7 @@ export default {
       follower: 0
     }
   },
-  components: {Nav, Post}
+  components: {Nav, Post, NewPost}
 }
 </script>
 
