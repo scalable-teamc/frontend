@@ -4,14 +4,14 @@
       <img src="@/assets/tweetie1.png"/>
     </div>
     <h1>Tweetie</h1>
-    <form>
+    <form @submit.prevent="login()">
       <div>
         <b-icon icon="person-fill" scale="1.3"></b-icon>
-        <input type="text" name="username" placeholder="username">
+        <input type="text" name="username" placeholder="username" v-model="username">
       </div>
       <div>
         <b-icon icon="key-fill" scale="1"></b-icon>
-        <input type="password" name="password" placeholder="password">
+        <input type="password" name="password" placeholder="password" v-model="password">
       </div>
       <div>
         <button type="submit">Sign in</button>
@@ -19,6 +19,31 @@
     </form>
   </div>
 </template>
+
+<script>
+import Vue from "vue";
+import store from "@/store";
+
+export default {
+  data() {
+    return {
+      username: "",
+      password: ""
+    }
+  },
+  methods: {
+    async login() {
+      let cred = {"username": this.username, "password": this.password}
+      let response = await Vue.axios.post("http://localhost:8082/auth/login", cred)
+      if (response.data.success) {
+        await store.dispatch("setLoggedInUser", {"loggedIn": true, "username": this.username});
+        this.$router.push("/home")
+      }
+      console.log(response.data.message)
+    }
+  }
+}
+</script>
 
 <style scoped>
 .rounded {
