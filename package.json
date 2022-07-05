@@ -16,7 +16,8 @@
     "vue-axios": "^3.4.1",
     "vue-js-modal": "^2.0.1",
     "vue-router": "^3.2.0",
-    "vuex": "^3.0.0"
+    "vuex": "^3.0.0",
+    "jquery": "1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

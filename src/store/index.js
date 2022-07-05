@@ -6,8 +6,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         isLoggedIn: false,
-        username: null,
-        name: null,
+        username: "johndoe123",
+        name: "John Doe",
+        desc: "Hello Tweetie! I am a dummy account",
+        uid: null
     },
     getters: {
         getIsLoggedIn(state) {

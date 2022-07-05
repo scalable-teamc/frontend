@@ -62,6 +62,7 @@ export default {
         }
         alert(response.data.message)
       }
+
     },
     goToSignUp() {
       this.register = true
