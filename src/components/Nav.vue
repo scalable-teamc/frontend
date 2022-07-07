@@ -1,27 +1,62 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div class="container">
     <ul>
       <li class="icon">
-        <div class="rounded"><img src="../assets/tweetie1.png"/></div>
+        <div class="rounded"><img src="../assets/tweetie1.png" class="logo"/></div>
       </li>
       <li>
-        <router-link to="/home"><b-icon icon="house"></b-icon></router-link>
+        <router-link to="/home">
+          <b-icon icon="house"></b-icon>
+        </router-link>
       </li>
       <li>
         <b-icon icon="bell"></b-icon>
       </li>
+      <!--      <li>-->
+      <!--        <b-icon icon="envelope"></b-icon>-->
+      <!--      </li>-->
       <li>
-        <b-icon icon="envelope"></b-icon>
+        <b-icon icon="search" @click="$modal.show('follow')"></b-icon>
+        <modal name="follow" class="modal">
+          <div class="search">
+            <input placeholder="username">
+            <button>search</button>
+          </div>
+          <div class="user" v-if="found">
+            <div>
+              <img src="../assets/tweetie.png" width="100px" v-if="!$store.state.image">
+              <img :src="$store.state.image" width="100px" v-else>
+              <p>{{ $store.state.name }}</p>
+              <p>username</p>
+            </div>
+            <div class="buttons">
+              <button class="unfollow" @click="">unfollow</button>
+              <button class="follow" @click="">follow</button>
+            </div>
+          </div>
+        </modal>
       </li>
       <li>
         <b-icon icon="archive"></b-icon>
       </li>
       <li>
-        <router-link to="/profile"><b-icon icon="person"></b-icon></router-link>
+        <router-link to="/profile">
+          <b-icon icon="person"></b-icon>
+        </router-link>
       </li>
     </ul>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      found: true
+    }
+  }
+}
+</script>
 
 <style scoped>
 .container {
@@ -43,7 +78,7 @@
   padding: 6px;
 }
 
-img {
+.logo {
   height: 50px;
 }
 
@@ -67,5 +102,44 @@ svg {
   width: 28px;
   height: 28px;
   margin-top: 10px;
+}
+
+button {
+  margin: 0 10px 5px 5px;
+  padding: 7px;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.unfollow:hover {
+  background-color: #f34444;
+  color: white;
+}
+
+.follow:hover {
+  background-color: #1db45e;
+  color: white;
+}
+
+.user {
+  position: relative;
+  top: 20%;
+}
+
+.search {
+  position: relative;
+  top: 10%;
+  height: fit-content;
+}
+
+.search svg{
+  margin: auto;
+}
+.search button {
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border: solid grey 1px;
 }
 </style>

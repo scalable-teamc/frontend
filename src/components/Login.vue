@@ -45,8 +45,6 @@ export default {
           "image": profile.data.picture,
           "desc": profile.data.description,
         });
-        console.log(response.data.uid)
-        console.log(this.$store.state)
         this.$router.push("/home")
       } else {
         alert(response.data.message)
@@ -82,6 +80,7 @@ button {
   background-color: black;
   color: white;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .login {
