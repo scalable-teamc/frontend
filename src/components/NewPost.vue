@@ -7,10 +7,12 @@
     <modal name="post">
       <div class="new">
         <div class="grid">
-          <img src="../assets/tweetie.png" width="50px">
+          <img src="../assets/tweetie.png" width="50px" v-if="!$store.state.image">
+          <img :src="$store.state.image" width="50px" v-else>
           <p>{{ $store.state.name }}</p>
         </div>
         <textarea placeholder="New Post ..." v-model="text"></textarea>
+        <input type="file" accept="image/png, image/jpeg" class="pic" @change="uploadPic">
       </div>
       <div class="buttons">
         <button @click="$modal.hide('post')" class="cancel">cancel</button>
@@ -26,15 +28,35 @@ import Vue from "vue";
 export default {
   data() {
     return {
-      text: null
+      text: null,
+      image: null
     }
   },
   methods: {
     async post() {
-      let data = {"userID": 0, "mediaID": 0, "content": this.text}
+      let img = ""
+      let ctype = ""
+      if (this.image) {
+        img = this.image.split(',')[1]
+        ctype = this.image.substring(
+            this.image.indexOf(":") + 1,
+            this.image.lastIndexOf(";")
+        );
+      }
+      let data = {"userID": this.$store.state.uid, "username": this.$store.state.username, "content": this.text, "image":img, "type": ctype, "mediaID": 0}
       let response = await Vue.axios.post("http://localhost:5466/post", data)
       console.log(response)
-    }
+    },
+    async uploadPic(event) {
+      const files = event.target.files
+      if (files && files[0]) {
+        const reader = new FileReader
+        reader.onload = e => {
+          this.image = e.target.result
+        }
+        await reader.readAsDataURL(files[0])
+      }
+    },
   }
 }
 </script>
@@ -65,7 +87,8 @@ export default {
 }
 
 .new {
-  padding: 20px 20px 15px 20px;
+  padding: 20px 20px 10px 20px;
+  text-align: left;
 }
 
 .grid {
@@ -76,10 +99,10 @@ export default {
 
 textarea {
   width: 500px;
-  height: 170px;
+  height: 130px;
   border: none;
   display: block;
-  margin: auto;
+  margin: 15px auto auto auto;
   resize: none;
 }
 
@@ -103,5 +126,13 @@ button {
 .post:hover {
   background-color: #1db45e;
   color: white;
+}
+
+button {
+  margin: 0 10px 5px 5px;
+  padding: 7px;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
 }
 </style>
