@@ -52,6 +52,8 @@ export default {
     async signUp() {
       if (this.password !== this.cpassword) {
         alert("Passwords have to match")
+      } else if (!this.name) {
+        alert("Display name cannot be empty")
       } else {
         let cred = {"username": this.username, "password": this.password}
         let response = await Vue.axios.post("http://localhost:8082/auth/register", cred)
@@ -59,10 +61,18 @@ export default {
           this.username = ""
           this.password = ""
           this.cpassword = ""
+          this.$store.state.uid = response.data.uid
+          await this.createProfile()
         }
         alert(response.data.message)
       }
-
+    },
+    async createProfile() {
+      let data = {"uid": this.$store.state.uid, "username": this.username, "image": "", "type": "", "display_name": this.name, "description": ""}
+      let response = await Vue.axios.post("http://localhost:8084/profile/save", data)
+      this.name = ""
+      this.email = ""
+      console.log(response)
     },
     goToSignUp() {
       this.register = true

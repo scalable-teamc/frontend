@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
     }
   },
   methods: {
@@ -36,10 +36,21 @@ export default {
       let cred = {"username": this.username, "password": this.password}
       let response = await Vue.axios.post("http://localhost:8082/auth/login", cred)
       if (response.data.success) {
-        await store.dispatch("setLoggedInUser", {"loggedIn": true, "username": this.username});
+        let profile = await Vue.axios.post("http://localhost:8084/profile/getprof", {"uid": response.data.uid, "username": this.username});
+        await store.dispatch("setLoggedInUser", {
+          "loggedIn": true,
+          "uid": response.data.uid,
+          "username": this.username,
+          "name": profile.data.display_name,
+          "image": profile.data.picture,
+          "desc": profile.data.description,
+        });
+        console.log(response.data.uid)
+        console.log(this.$store.state)
         this.$router.push("/home")
+      } else {
+        alert(response.data.message)
       }
-      console.log(response.data.message)
     }
   }
 }
