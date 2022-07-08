@@ -58,9 +58,6 @@ export default {
         let cred = {"username": this.username, "password": this.password}
         let response = await Vue.axios.post("http://localhost:8082/auth/register", cred)
         if (response.data.success) {
-          this.username = ""
-          this.password = ""
-          this.cpassword = ""
           this.$store.state.uid = response.data.uid
           await this.createProfile()
         }
@@ -70,6 +67,9 @@ export default {
     async createProfile() {
       let data = {"uid": this.$store.state.uid, "username": this.username, "image": "", "type": "", "display_name": this.name, "description": ""}
       let response = await Vue.axios.post("http://localhost:8084/profile/save", data)
+      this.username = ""
+      this.password = ""
+      this.cpassword = ""
       this.name = ""
       this.email = ""
       console.log(response)

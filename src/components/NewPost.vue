@@ -46,6 +46,7 @@ export default {
       let data = {"userID": this.$store.state.uid, "username": this.$store.state.username, "content": this.text, "image":img, "type": ctype, "mediaID": 0}
       let response = await Vue.axios.post("http://localhost:5466/post", data)
       console.log(response)
+      this.$modal.hide('post')
     },
     async uploadPic(event) {
       const files = event.target.files

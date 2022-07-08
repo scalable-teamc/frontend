@@ -49,6 +49,7 @@ export default {
       } else {
         alert(response.data.message)
       }
+      console.log(this.$store.state.uid)
     }
   }
 }

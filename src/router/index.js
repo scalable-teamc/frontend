@@ -24,6 +24,11 @@ const routes = [
     name: "Profile",
     component: () => import("../views/Profile.vue"),
   },
+  {
+    path: "/test",
+    name: "Test",
+    component: () => import("../views/Test.vue"),
+  },
 
 ];
 
@@ -33,15 +38,15 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   let isLoggedIn = store.state.isLoggedIn;
-//   if (to.name !== "Login" && !isLoggedIn) {
-//     // redirect to login page
-//     next({ name: "Login" });
-//   } else {
-//     //otherwise, let go
-//     next();
-//   }
-// });
+router.beforeEach(async (to, from, next) => {
+  let isLoggedIn = store.state.isLoggedIn;
+  if (to.name !== "Login" && !isLoggedIn) {
+    // redirect to login page
+    next({ name: "Login" });
+  } else {
+    //otherwise, let go
+    next();
+  }
+});
 
 export default router;

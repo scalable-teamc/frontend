@@ -19,19 +19,18 @@
         <b-icon icon="search" @click="$modal.show('follow')"></b-icon>
         <modal name="follow" class="modal">
           <div class="search">
-            <input placeholder="username">
-            <button>search</button>
+            <input placeholder="username" v-model="username">
+            <button @click="search">search</button>
           </div>
           <div class="user" v-if="found">
             <div>
-              <img src="../assets/tweetie.png" width="100px" v-if="!$store.state.image">
-              <img :src="$store.state.image" width="100px" v-else>
-              <p>{{ $store.state.name }}</p>
-              <p>username</p>
+              <img src="../assets/tweetie.png" width="100px" v-if="!image">
+              <img :src="image" width="100px" v-else>
+              <p>{{ name }} @ {{username}}</p>
             </div>
             <div class="buttons">
-              <button class="unfollow" @click="">unfollow</button>
-              <button class="follow" @click="">follow</button>
+              <button class="unfollow" @click="unfollow">unfollow</button>
+              <button class="follow" @click="follow">follow</button>
             </div>
           </div>
         </modal>
@@ -49,10 +48,36 @@
 </template>
 
 <script>
+import Vue from "vue";
+
 export default {
   data() {
     return {
-      found: true
+      found: false,
+      username: "",
+      name: "",
+      image: "",
+      uid: null
+    }
+  },
+  methods: {
+    async search() {
+      let response = await Vue.axios.post("http://localhost:8084/profile/getuser", {"username": this.username})
+      let user = response.data
+      if (user.display_name) {
+        this.found = true
+        this.name = user.display_name
+        this.image = user.picture
+        this.uid = user.uid
+      }
+      console.log(user)
+    },
+    async unfollow() {
+      await Vue.axios.post("http://localhost:8084/follow/unfollow", {"uid": this.$store.state.uid, "remove_id": this.uid})
+    },
+    async follow() {
+      console.log(this.$store.state.uid)
+      await Vue.axios.post("http://localhost:8084/follow/following", {"uid": this.$store.state.uid, "following_id": this.uid})
     }
   }
 }
@@ -133,9 +158,10 @@ button {
   height: fit-content;
 }
 
-.search svg{
+.search svg {
   margin: auto;
 }
+
 .search button {
   height: 21px;
   margin: 0;
