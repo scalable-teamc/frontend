@@ -19,7 +19,7 @@
         <b-icon icon="search" @click="$modal.show('follow')"></b-icon>
         <modal name="follow" class="modal">
           <div class="search">
-            <input placeholder="username" v-model="username">
+            <input placeholder="username" v-model="find">
             <button @click="search">search</button>
           </div>
           <div class="user" v-if="found">
@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       found: false,
+      find: "",
       username: "",
       name: "",
       image: "",
@@ -62,22 +63,29 @@ export default {
   },
   methods: {
     async search() {
-      let response = await Vue.axios.post("http://localhost:8084/profile/getuser", {"username": this.username})
+      let response = await Vue.axios.post("http://localhost:8084/profile/getuser", {"username": this.find})
       let user = response.data
       if (user.display_name) {
         this.found = true
         this.name = user.display_name
+        this.username = this.find
         this.image = user.picture
         this.uid = user.uid
       }
       console.log(user)
     },
     async unfollow() {
-      await Vue.axios.post("http://localhost:8084/follow/unfollow", {"uid": this.$store.state.uid, "remove_id": this.uid})
+      await Vue.axios.patch("http://localhost:8084/profile/unfollow", {"uid": this.$store.state.uid, "remove_id": this.uid})
+      await this.updateFollow()
     },
     async follow() {
       console.log(this.$store.state.uid)
-      await Vue.axios.post("http://localhost:8084/follow/following", {"uid": this.$store.state.uid, "following_id": this.uid})
+      await Vue.axios.post("http://localhost:8084/profile/follow", {"uid": this.$store.state.uid, "following_id": this.uid})
+      await this.updateFollow()
+    },
+    async updateFollow() {
+      let follow = await Vue.axios.post("http://localhost:8084/profile/getfollow", {"uid": this.$store.state.uid})
+      await this.$store.dispatch("setFollow", follow.data)
     }
   }
 }

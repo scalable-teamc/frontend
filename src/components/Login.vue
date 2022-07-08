@@ -44,12 +44,14 @@ export default {
           "name": profile.data.display_name,
           "image": profile.data.picture,
           "desc": profile.data.description,
+          "following": profile.data.following,
+          "follower": profile.data.follower
         });
+        console.log(profile)
         this.$router.push("/home")
       } else {
         alert(response.data.message)
       }
-      console.log(this.$store.state.uid)
     }
   }
 }

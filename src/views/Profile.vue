@@ -29,7 +29,7 @@
         <button class="save" @click="saveProfile">save</button>
       </div>
 
-      <p>{{ following }} Following &nbsp; {{ follower }} Followers</p>
+      <p>{{ $store.state.following.length }} Following &nbsp; {{ $store.state.follower.length }} Followers</p>
 
       <Post v-for="i in 10" :key="i"></Post>
     </div>
@@ -50,13 +50,15 @@ export default {
     return {
       new_name: this.$store.state.name,
       new_desc: this.$store.state.desc,
-      following: 0,
-      follower: 0,
       editMode: false,
       image: this.$store.state.image
     }
   },
   components: {Nav, Post, NewPost},
+  async mounted() {
+    let follow = await Vue.axios.post("http://localhost:8084/profile/getfollow", {"uid": this.$store.state.uid})
+    await this.$store.dispatch("setFollow", follow.data)
+  },
   methods: {
     edit() {
       this.editMode = true
