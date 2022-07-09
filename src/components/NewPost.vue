@@ -24,6 +24,7 @@
 
 <script>
 import Vue from "vue";
+import io from "socket.io-client";
 
 export default {
   data() {
@@ -31,6 +32,9 @@ export default {
       text: null,
       image: null
     }
+  },
+  mounted() {
+    this.socket = io.connect('http://localhost:5000')
   },
   methods: {
     async post() {
@@ -43,10 +47,19 @@ export default {
             this.image.lastIndexOf(";")
         );
       }
-      let data = {"userID": this.$store.state.uid, "username": this.$store.state.username, "content": this.text, "image":img, "type": ctype, "mediaID": 0}
+      let data = {
+        "userID": this.$store.state.uid,
+        "username": this.$store.state.username,
+        "content": this.text,
+        "image": img,
+        "type": ctype,
+        "mediaID": 0
+      }
       let response = await Vue.axios.post("http://localhost:5466/post", data)
-      console.log(response)
+      this.sendToFollower(response.data)
       this.$modal.hide('post')
+      this.text = null
+      this.image = null
     },
     async uploadPic(event) {
       const files = event.target.files
@@ -58,6 +71,13 @@ export default {
         await reader.readAsDataURL(files[0])
       }
     },
+    sendToFollower(postID) {
+      for (let index in this.$store.state.follower) {
+        let data = {"to": this.$store.state.follower[index], "postID": postID}
+        console.log(data)
+        this.socket.emit('broadcast_message', data)
+      }
+    }
   }
 }
 </script>

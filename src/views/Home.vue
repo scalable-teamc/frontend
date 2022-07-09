@@ -14,9 +14,20 @@
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
+import io from "socket.io-client";
 
 export default {
-  components: {Nav, Post, NewPost}
+  components: {Nav, Post, NewPost},
+  created() {
+    this.socket = io.connect('http://localhost:5000')
+    this.socket.on('my_response', (data) => {
+      console.log(data)
+    })
+    this.socket.on(this.$store.state.uid, (data) => {
+      this.msg = data
+      console.log(data)
+    })
+  },
 }
 </script>
 
