@@ -2,25 +2,30 @@
   <div class="post">
     <div class="profile">
       <b-icon icon="person-fill"></b-icon>
-      <span>John Doe</span>
-      <span>@johndoe123</span>
-      <span class="time">15:05 28/05/2022</span>
+      <span>Display Name</span>
+      <span>@{{ username }}</span>
+      <span class="time">{{ createdAt }}</span>
     </div>
     <div class="content">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid commodi consequatur dicta dolor doloremque eius
-      eveniet ex excepturi facilis id incidunt inventore itaque iusto laboriosam laborum modi molestias nemo neque nihil
-      nobis odio, omnis optio pariatur porro quas quia quidem quis reiciendis sequi tempora tempore totam veritatis
-      voluptatibus. Dolor, sint.
+      <p>{{ content }}</p>
+      <img :src="image">
     </div>
     <div class="action">
       <b-icon icon="heart"></b-icon>
-<!--      <b-icon icon="chat"></b-icon>-->
+<!--      <b-icon icon="heart-fill" style="color: #fc3838"></b-icon>-->
+      <!--      <b-icon icon="chat"></b-icon>-->
       <b-icon icon="reply"></b-icon>
       <b-icon icon="bookmark"></b-icon>
     </div>
   </div>
 
 </template>
+
+<script>
+export default {
+  props: ["username", "createdAt", "content", "image"]
+}
+</script>
 
 <style scoped>
 .post {
@@ -50,6 +55,7 @@ span {
 .content {
   margin: 20px;
 }
+
 .action svg {
   margin-left: 40px;
   margin-right: 40px;

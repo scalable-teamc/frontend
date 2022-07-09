@@ -88,8 +88,6 @@ export default {
   float: right;
   position: -webkit-sticky;
   position: sticky;
-  top: 85%;
-  right: 2%;
   cursor: pointer;
 }
 
@@ -98,6 +96,7 @@ export default {
   width: 60px;
   height: 60px;
   background-color: #ff8800;
+  text-align: center;
 }
 
 .icon {

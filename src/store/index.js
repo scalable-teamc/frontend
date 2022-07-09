@@ -10,12 +10,14 @@ export default new Vuex.Store({
         name: null,
         desc: null,
         image: "",
-        uid: null
+        uid: null,
+        following: [],
+        follower: []
     },
     getters: {
         getIsLoggedIn(state) {
             return state.isLoggedIn;
-        }
+        },
     },
     mutations: {
         setIsLoggedIn(state, isLoggedIn) {
@@ -35,18 +37,26 @@ export default new Vuex.Store({
         },
         setDesc(state, desc) {
             state.desc = desc
+        },
+        setFollowing(state, following) {
+            state.following = following
+        },
+        setFollower(state, follower) {
+            state.follower = follower
         }
     },
     actions: {
-        setLoggedInUser({ commit }, payload) {
+        setLoggedInUser({commit}, payload) {
             commit("setIsLoggedIn", payload.loggedIn);
             commit("setUid", payload.uid);
             commit("setUsername", payload.username);
             commit("setName", payload.name);
             commit("setImg", payload.image);
             commit("setDesc", payload.desc);
+            commit("setFollowing", payload.following);
+            commit("setFollower", payload.follower);
         },
-        clearUser({ commit }) {
+        clearUser({commit}) {
             commit("setIsLoggedIn", false);
             commit("setUid", null);
             commit("setUsername", null);
@@ -54,5 +64,9 @@ export default new Vuex.Store({
             commit("setImg", null);
             commit("setDesc", null);
         },
+        setFollow({commit}, payload) {
+            commit("setFollowing", payload.following);
+            commit("setFollower", payload.follower);
+        }
     },
 });
