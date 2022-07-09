@@ -73,7 +73,8 @@ export default {
     },
     sendToFollower(postID) {
       for (let index in this.$store.state.follower) {
-        let data = {"to": this.$store.state.follower[index], "postID": postID}
+        let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        let data = {"to": this.$store.state.follower[index], "postID": postID, "date": date}
         console.log(data)
         this.socket.emit('broadcast_message', data)
       }

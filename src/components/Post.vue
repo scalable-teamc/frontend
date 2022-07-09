@@ -1,9 +1,11 @@
 <template>
   <div class="post">
-    <div class="profile">
-      <b-icon icon="person-fill"></b-icon>
-      <span>Display Name</span>
-      <span>@{{ username }}</span>
+    <div>
+      <div class="profile">
+        <img src="../assets/tweetie.png" width="50px" v-if="!image">
+        <img :src="image" width="50px" v-else>
+        <p><{{ name }}@{{ username }}</p>
+      </div>
       <span class="time">{{ createdAt }}</span>
     </div>
     <div class="content">
@@ -12,7 +14,7 @@
     </div>
     <div class="action">
       <b-icon icon="heart"></b-icon>
-<!--      <b-icon icon="heart-fill" style="color: #fc3838"></b-icon>-->
+      <!--      <b-icon icon="heart-fill" style="color: #fc3838"></b-icon>-->
       <!--      <b-icon icon="chat"></b-icon>-->
       <b-icon icon="reply"></b-icon>
       <b-icon icon="bookmark"></b-icon>
@@ -23,7 +25,7 @@
 
 <script>
 export default {
-  props: ["username", "createdAt", "content", "image"]
+  props: ["username", "name", "createdAt", "content", "image"]
 }
 </script>
 
@@ -38,18 +40,14 @@ export default {
 
 .profile {
   margin: 5px;
-}
-
-span {
-  margin: 3px;
-}
-
-.profile svg {
-  margin-right: 10px;
+  display: grid;
+  grid-template-columns: 60px 50%;
 }
 
 .time {
-  float: right;
+  position: relative;
+  top: -40px;
+  left: 80%;
 }
 
 .content {
