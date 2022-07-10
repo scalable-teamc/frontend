@@ -90,6 +90,10 @@ export default {
   position: -webkit-sticky;
   position: sticky;
   cursor: pointer;
+  height: 100vh;
+  margin: 0;
+  top: 0;
+  padding: 0;
 }
 
 .rounded {
@@ -98,6 +102,9 @@ export default {
   height: 60px;
   background-color: #ff8800;
   text-align: center;
+  position: relative;
+  top: 88%;
+  right: 30%;
 }
 
 .icon {

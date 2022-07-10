@@ -4,7 +4,7 @@
     <NewPost class="new"/>
     Feed
     <div class="body">
-      <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
+      <Post v-for="post in posts" :key="post.postID" :username="post.username" :name="post.name"
             :created-at="post.createdAt" :content="post.content" :image="post.image">{{ post }}
       </Post>
     </div>
@@ -16,57 +16,41 @@
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
-import io from "socket.io-client";
 import Vue from "vue";
 
 export default {
   components: {Nav, Post, NewPost},
   async created() {
-    this.socket = io.connect('http://localhost:5000')
-    this.socket.on('my_response', (data) => {
-      console.log(data)
-    })
-    // this.socket.emit('online', this.$store.state.uid)
-    this.socket.on(this.$store.state.uid, (data) => {
-      this.getPost(data.postID, true)
-    })
-
+    let response = await Vue.axios.post("http://localhost:8084/profile/archive", {"uid": this.$store.state.uid,})
+    this.all = response.data
     this.posts = await this.loadPosts()
     this.scroll()
   },
   data() {
     return {
+      all: [],
       posts: [],
       offset: 0
     }
   },
   methods: {
-    async getPost(postID, isNew) {
+    async getPost(postID) {
       let content = await Vue.axios.get("http://localhost:5466/get/" + postID)
       let op = content.data.userID
       let user = await Vue.axios.get("http://localhost:8084/profile/getshort/" + op)
-      let post = {
-        "postID": postID,
+      return {
         "username": user.data.username,
         "name": user.data.display_name,
         "createdAt": content.data.createdAt,
         "content": content.data.content,
         "image": content.data.image
       }
-      if (isNew) {
-        this.posts.unshift(post)
-      } else {
-        return post
-      }
     },
     async loadPosts() {
-      let feed = await Vue.axios.post("http://localhost:5000/feed/all", {
-        "uid": this.$store.state.uid,
-        "offset": this.offset
-      })
       let temp = []
-      for (let index in feed.data) {
-        temp.push(await this.getPost(feed.data[index], false))
+      let slice = this.all.slice(this.offset, this.offset + 10)
+      for (let index in slice) {
+        temp.push(await this.getPost(slice[index]))
       }
       return temp
     },
@@ -79,7 +63,7 @@ export default {
           let more = await this.loadPosts()
           if (more) {
             this.posts.push(...more)
-            // console.log(this.posts)
+            console.log(this.posts)
           }
         }
       }
@@ -93,10 +77,4 @@ export default {
   width: 80%;
   margin: 0px 50px 0px 150px;
 }
-
-/*.new {*/
-/*  position: absolute;*/
-/*  top: 85%;*/
-/*  right: 2%;*/
-/*}*/
 </style>

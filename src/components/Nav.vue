@@ -36,7 +36,9 @@
         </modal>
       </li>
       <li>
-        <b-icon icon="archive"></b-icon>
+        <router-link to="/archive">
+          <b-icon icon="archive"></b-icon>
+        </router-link>
       </li>
       <li>
         <router-link to="/profile">

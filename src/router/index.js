@@ -24,6 +24,11 @@ const routes = [
     name: "Profile",
     component: () => import("../views/Profile.vue"),
   },
+  {
+    path: "/archive",
+    name: "Archive",
+    component: () => import("../views/Archive.vue"),
+  },
 
 ];
 

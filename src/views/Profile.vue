@@ -29,7 +29,7 @@
         <button class="save" @click="saveProfile">save</button>
       </div>
 
-      <p>{{ $store.state.following.length }} Following &nbsp; {{ $store.state.follower.length }} Followers</p>
+      <p>{{ $store.state.following.length }} Following &nbsp; {{ $store.state.follower.length-1 }} Followers</p>
 
       <Post v-for="i in 10" :key="i"></Post>
     </div>

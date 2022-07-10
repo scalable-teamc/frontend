@@ -4,7 +4,7 @@
       <div class="profile">
         <img src="../assets/tweetie.png" width="50px" v-if="!image">
         <img :src="image" width="50px" v-else>
-        <p><{{ name }}@{{ username }}</p>
+        <p>{{ name }}@{{ username }}</p>
       </div>
       <span class="time">{{ createdAt }}</span>
     </div>
@@ -17,15 +17,36 @@
       <!--      <b-icon icon="heart-fill" style="color: #fc3838"></b-icon>-->
       <!--      <b-icon icon="chat"></b-icon>-->
       <b-icon icon="reply"></b-icon>
-      <b-icon icon="bookmark"></b-icon>
+      <b-icon icon="bookmark" v-if="!save" @click="savePost"></b-icon>
+      <b-icon icon="bookmark-fill" v-else @click="savePost"></b-icon>
     </div>
   </div>
 
 </template>
 
 <script>
+import Vue from "vue";
+
 export default {
-  props: ["username", "name", "createdAt", "content", "image"]
+  props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved"],
+  data() {
+    return {
+      like: false,
+      save: false
+    }
+  },
+  methods: {
+    async savePost() {
+      this.save = !this.save
+      let data = {"uid": this.$store.state.uid, "post_id": this.postID}
+      console.log(data)
+      if (this.save) {
+        await Vue.axios.post("http://localhost:8084/profile/savedPost", data)
+      } else {
+        await Vue.axios.patch("http://localhost:8084/profile/unsavedPost", data)
+      }
+    }
+  }
 }
 </script>
 
