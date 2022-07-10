@@ -5,7 +5,7 @@
     Feed
     <div class="body">
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
-            :created-at="post.createdAt" :content="post.content" :image="post.image">{{ post }}
+            :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false">{{ post }}
       </Post>
     </div>
     ©
@@ -92,6 +92,7 @@ export default {
 .body {
   width: 80%;
   margin: 0px 50px 0px 150px;
+  min-height: 100vh;
 }
 
 /*.new {*/

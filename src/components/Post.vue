@@ -29,6 +29,9 @@ import Vue from "vue";
 
 export default {
   props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved"],
+  mounted() {
+    this.save = this.isSaved
+  },
   data() {
     return {
       like: false,

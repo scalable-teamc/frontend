@@ -2,10 +2,10 @@
   <div class="container">
     <Nav class="nav"/>
     <NewPost class="new"/>
-    Feed
+    Archive
     <div class="body">
-      <Post v-for="post in posts" :key="post.postID" :username="post.username" :name="post.name"
-            :created-at="post.createdAt" :content="post.content" :image="post.image">{{ post }}
+      <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
+            :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="true">{{ post }}
       </Post>
     </div>
     ©
@@ -39,6 +39,7 @@ export default {
       let op = content.data.userID
       let user = await Vue.axios.get("http://localhost:8084/profile/getshort/" + op)
       return {
+        "postID": postID,
         "username": user.data.username,
         "name": user.data.display_name,
         "createdAt": content.data.createdAt,
@@ -63,7 +64,6 @@ export default {
           let more = await this.loadPosts()
           if (more) {
             this.posts.push(...more)
-            console.log(this.posts)
           }
         }
       }
@@ -76,5 +76,6 @@ export default {
 .body {
   width: 80%;
   margin: 0px 50px 0px 150px;
+  min-height: 100vh;
 }
 </style>
