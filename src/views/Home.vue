@@ -79,7 +79,6 @@ export default {
           let more = await this.loadPosts()
           if (more) {
             this.posts.push(...more)
-            // console.log(this.posts)
           }
         }
       }
