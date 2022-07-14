@@ -13,8 +13,8 @@
       <img :src="image">
     </div>
     <div class="action">
-      <b-icon icon="heart"></b-icon>
-      <!--      <b-icon icon="heart-fill" style="color: #fc3838"></b-icon>-->
+      <b-icon icon="heart" v-if="!like" @click="likePost"></b-icon>
+      <b-icon icon="heart-fill" style="color: #fc3838" v-else @click="likePost"></b-icon>
       <!--      <b-icon icon="chat"></b-icon>-->
       <b-icon icon="reply"></b-icon>
       <b-icon icon="bookmark" v-if="!save" @click="savePost"></b-icon>
@@ -28,13 +28,13 @@
 import Vue from "vue";
 
 export default {
-  props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved"],
+  props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved", "isLiked"],
   mounted() {
     this.save = this.isSaved
   },
   data() {
     return {
-      like: false,
+      like: this.isLiked,
       save: false
     }
   },
@@ -42,11 +42,20 @@ export default {
     async savePost() {
       this.save = !this.save
       let data = {"uid": this.$store.state.uid, "post_id": this.postID}
-      console.log(data)
       if (this.save) {
         await Vue.axios.post("http://localhost:8084/profile/savedPost", data)
       } else {
         await Vue.axios.patch("http://localhost:8084/profile/unsavedPost", data)
+      }
+    },
+    async likePost() {
+      this.like = !this.like
+      let data = {"userID": this.$store.state.uid, "postID": this.postID}
+      console.log(data)
+      if (this.like) {
+        await Vue.axios.post("http://localhost:5466/like", data)
+      } else {
+        await Vue.axios.post("http://localhost:5466/unlike", data)
       }
     }
   }

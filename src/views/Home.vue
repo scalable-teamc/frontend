@@ -5,7 +5,8 @@
     Feed
     <div class="body">
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
-            :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false">{{ post }}
+            :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false"
+            :is-liked="post.isLiked">{{ post }}
       </Post>
     </div>
     ©
@@ -42,7 +43,7 @@ export default {
   },
   methods: {
     async getPost(postID, isNew) {
-      let content = await Vue.axios.get("http://localhost:5466/get/" + postID)
+      let content = await Vue.axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
       let user = await Vue.axios.get("http://localhost:8084/profile/getshort/" + op)
       let post = {
@@ -51,7 +52,8 @@ export default {
         "name": user.data.display_name,
         "createdAt": content.data.createdAt,
         "content": content.data.content,
-        "image": content.data.image
+        "image": content.data.image,
+        "isLiked": content.data.isLiked
       }
       if (isNew) {
         this.posts.unshift(post)
