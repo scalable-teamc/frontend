@@ -116,6 +116,8 @@ export default {
 .body {
   width: 80%;
   margin: 0 50px 0 150px;
+  min-height: 100vh;
+  padding: 10px;
 }
 
 img {

@@ -2,7 +2,7 @@
   <div class="container">
     <Nav class="nav"/>
     <NewPost class="new"/>
-    <!--    Feed-->
+        Feed
     <a href="#"><p class="notification" @click="resetNew" v-if="newPost.length > 0">{{ newPost.length }} new posts</p></a>
     <div class="body">
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
@@ -100,6 +100,7 @@ export default {
   width: 80%;
   margin: 0px 50px 0px 150px;
   min-height: 100vh;
+  padding: 10px;
 }
 
 .notification {

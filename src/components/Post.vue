@@ -2,8 +2,8 @@
   <div class="post">
     <div>
       <div class="profile">
-        <img src="../assets/tweetie.png" width="50px" v-if="!image">
-        <img :src="image" width="50px" v-else>
+        <img src="../assets/tweetie.png" width="50px" v-if="!profilePic">
+        <img :src="profilePic" width="50px">
         <p>{{ name }}@{{ username }}</p>
       </div>
       <span class="time">{{ createdAt }}</span>
@@ -28,7 +28,7 @@
 import Vue from "vue";
 
 export default {
-  props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved", "isLiked"],
+  props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved", "isLiked", "profilePic"],
   mounted() {
     this.save = this.isSaved
   },

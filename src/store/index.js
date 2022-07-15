@@ -67,6 +67,11 @@ export default new Vuex.Store({
         setFollow({commit}, payload) {
             commit("setFollowing", payload.following);
             commit("setFollower", payload.follower);
+        },
+        setProfile({commit}, payload) {
+            commit("setName", payload.name);
+            commit("setImg", payload.image);
+            commit("setDesc", payload.desc);
         }
     },
 });

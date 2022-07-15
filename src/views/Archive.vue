@@ -79,5 +79,6 @@ export default {
   width: 80%;
   margin: 0px 50px 0px 150px;
   min-height: 100vh;
+  padding: 10px;
 }
 </style>

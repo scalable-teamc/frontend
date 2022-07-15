@@ -33,7 +33,7 @@
 
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false"
-            :is-liked="post.isLiked">{{ post }}
+            :is-liked="post.isLiked" :profile-pic="post.profilePic">{{ post }}
       </Post>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
       new_name: this.$store.state.name,
       new_desc: this.$store.state.desc,
       editMode: false,
-      image: this.$store.state.image,
+      image: null,
       all: null,
       posts: [],
       offset: 0
@@ -103,9 +103,7 @@ export default {
         "display_name": this.new_name,
         "description": this.new_desc
       }
-      await store.dispatch("setLoggedInUser", {
-        "loggedIn": true,
-        "username": this.$store.state.username,
+      await store.dispatch("setProfile", {
         "name": this.new_name,
         "image": this.image,
         "desc": this.new_desc,
@@ -121,6 +119,7 @@ export default {
         "postID": postID,
         "username": user.data.username,
         "name": user.data.display_name,
+        "profilePic": user.data.picture,
         "createdAt": content.data.createdAt,
         "content": content.data.content,
         "image": content.data.image,
@@ -156,6 +155,8 @@ export default {
 .body {
   width: 80%;
   margin: 0 50px 0 150px;
+  min-height: 100vh;
+  padding: 10px;
 }
 
 img {
