@@ -1,15 +1,25 @@
 <template>
-  <div class="container">
+  <div>
     <Nav class="nav"/>
-    <NewPost class="new"/>
-    Archive
+    <NewPost/>
+
     <div class="body">
+
+      <div class="profile">
+        <img src="../assets/tweetie.png" width="200px" v-if="!image">
+        <img :src="image" width="200px" v-else>
+        <h3>{{ name }}</h3>
+        <p>@{{ username }}</p>
+        <p>{{ desc }}</p>
+      </div>
+
+      <p>{{ following.length }} Following &nbsp; {{ follower.length - 1 }} Followers</p>
+
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
-            :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="true"
+            :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false"
             :is-liked="post.isLiked">{{ post }}
       </Post>
     </div>
-    ©
   </div>
 </template>
 
@@ -18,21 +28,49 @@ import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
 import Vue from "vue";
+import store from "@/store";
 
 export default {
-  components: {Nav, Post, NewPost},
-  async created() {
-    let response = await Vue.axios.post("http://localhost:8084/profile/archive", {"uid": this.$store.state.uid,})
-    this.all = response.data
-    this.posts = await this.loadPosts()
-    this.scroll()
+  props: ["uid", "username"],
+  watch: {
+    user() {
+      if (this.username !== this.curUser) {
+        this.$forceUpdate()
+      }
+      this.curUser = this.username
+      return this.user()
+    }
   },
   data() {
     return {
-      all: [],
+      name: "",
+      image: "",
+      desc: "",
+      following: [],
+      follower: ["dummmy"],
+      all: null,
       posts: [],
-      offset: 0
+      offset: 0,
+      curUser: ""
     }
+  },
+  components: {Nav, Post, NewPost},
+  async created() {
+    let profile = await Vue.axios.post("http://localhost:8084/profile/getprof", {
+      "uid": this.uid,
+      "username": this.username
+    });
+    console.log(profile.data)
+    this.name = profile.data.display_name
+    this.image = profile.data.picture
+    this.desc = profile.data.description
+    this.following = profile.data.following
+    this.follower = profile.data.follower
+
+    let postRes = await Vue.axios.get("http://localhost:5466/user-post/" + this.uid)
+    this.all = postRes.data
+    this.posts = await this.loadPosts()
+    this.scroll()
   },
   methods: {
     async getPost(postID) {
@@ -77,7 +115,30 @@ export default {
 <style scoped>
 .body {
   width: 80%;
-  margin: 0px 50px 0px 150px;
-  min-height: 100vh;
+  margin: 0 50px 0 150px;
+}
+
+img {
+  /*display: block;*/
+  margin-top: 30px;
+}
+
+textarea {
+  resize: none;
+  width: 300px;
+  border: darkgray solid 1px;
+}
+
+a {
+  position: absolute;
+  right: 2%;
+  top: 2%;
+}
+
+button {
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 2px;
 }
 </style>

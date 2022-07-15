@@ -22,12 +22,24 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    component: () => import("../views/Profile.vue"),
+    component: () => import("../views/MyProfile.vue"),
   },
   {
     path: "/archive",
     name: "Archive",
     component: () => import("../views/Archive.vue"),
+  },
+  {
+    path: "/user-profile/:uid",
+    name: "UserProfile",
+    props: true,
+    component: () => import("../views/UserProfile.vue"),
+  },
+  {
+    path: "/search",
+    name: "Search",
+    props: true,
+    component: () => import("../views/Search.vue"),
   },
 
 ];

@@ -115,7 +115,7 @@ export default {
 }
 
 .new {
-  padding: 20px 20px 10px 20px;
+  padding: 20px 20px 5px 20px;
   text-align: left;
 }
 
@@ -130,7 +130,7 @@ textarea {
   height: 130px;
   border: none;
   display: block;
-  margin: 15px auto auto auto;
+  margin: 15px auto 10px auto;
   resize: none;
 }
 
