@@ -2,7 +2,8 @@
   <div class="container">
     <Nav class="nav"/>
     <NewPost class="new"/>
-    Feed
+    <!--    Feed-->
+    <a href="#"><p class="notification" @click="resetNew" v-if="newPost.length > 0">{{ newPost.length }} new posts</p></a>
     <div class="body">
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false"
@@ -22,14 +23,14 @@ import Vue from "vue";
 
 export default {
   components: {Nav, Post, NewPost},
-  async created() {
+  async mounted() {
     this.socket = io.connect('http://localhost:5000')
     this.socket.on('my_response', (data) => {
       console.log(data)
     })
     // this.socket.emit('online', this.$store.state.uid)
-    this.socket.on(this.$store.state.uid, (data) => {
-      this.getPost(data.postID, true)
+    this.socket.on(this.$store.state.uid, async (data) => {
+      await this.getPost(data.postID, true)
     })
 
     this.posts = await this.loadPosts()
@@ -38,10 +39,15 @@ export default {
   data() {
     return {
       posts: [],
-      offset: 0
+      offset: 0,
+      newPost: []
     }
   },
   methods: {
+    resetNew() {
+      this.posts.unshift(...this.newPost)
+      this.newPost = []
+    },
     async getPost(postID, isNew) {
       let content = await Vue.axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
@@ -56,7 +62,7 @@ export default {
         "isLiked": content.data.isLiked
       }
       if (isNew) {
-        this.posts.unshift(post)
+        this.newPost.unshift(post)
       } else {
         return post
       }
@@ -79,7 +85,7 @@ export default {
         if (bottomOfWindow) {
           this.offset += 10
           let more = await this.loadPosts()
-          if (more) {
+          if (more.length > 0) {
             this.posts.push(...more)
           }
         }
@@ -96,9 +102,20 @@ export default {
   min-height: 100vh;
 }
 
-/*.new {*/
-/*  position: absolute;*/
-/*  top: 85%;*/
-/*  right: 2%;*/
-/*}*/
+.notification {
+  background-color: #ffec8f;
+  width: 120px;
+  height: 20px;
+  float: top;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20px;
+  margin: auto;
+  border-radius: 10px;
+  color: black;
+  padding: 5px;
+}
+p {
+  margin: auto;
+}
 </style>

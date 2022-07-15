@@ -130,7 +130,7 @@ textarea {
   height: 130px;
   border: none;
   display: block;
-  margin: 15px auto 10px auto;
+  margin: 15px auto 5px auto;
   resize: none;
 }
 
