@@ -30,9 +30,36 @@
           <b-icon icon="person"></b-icon>
         </router-link>
       </li>
+      <li>
+        <b-icon icon="power" @click="logout"></b-icon>
+      </li>
     </ul>
   </div>
 </template>
+
+<script>
+import store from "@/store";
+import {socket} from "@/socket/io.js"
+
+export default {
+  methods: {
+    logout() {
+      socket.emit("logout")
+      store.dispatch("setLoggedInUser", {
+        "loggedIn": false,
+        "uid": "",
+        "username": "",
+        "name": "",
+        "image": "",
+        "desc": "",
+        "following": [],
+        "follower": []
+      });
+      this.$router.replace("/login")
+    }
+  }
+}
+</script>
 
 
 <style scoped>

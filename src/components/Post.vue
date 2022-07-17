@@ -3,7 +3,7 @@
     <div>
       <div class="profile">
         <img src="../assets/tweetie.png" width="50px" v-if="!profilePic">
-        <img :src="profilePic" width="50px">
+        <img :src="profilePic" width="50px" v-else>
         <p>{{ name }}@{{ username }}</p>
       </div>
       <span class="time">{{ createdAt }}</span>
@@ -15,8 +15,8 @@
     <div class="action">
       <b-icon icon="heart" v-if="!like" @click="likePost"></b-icon>
       <b-icon icon="heart-fill" style="color: #fc3838" v-else @click="likePost"></b-icon>
-      <!--      <b-icon icon="chat"></b-icon>-->
-      <b-icon icon="reply"></b-icon>
+<!--      <b-icon icon="chat"></b-icon>-->
+<!--      <b-icon icon="reply"></b-icon>-->
       <b-icon icon="bookmark" v-if="!save" @click="savePost"></b-icon>
       <b-icon icon="bookmark-fill" v-else @click="savePost"></b-icon>
     </div>

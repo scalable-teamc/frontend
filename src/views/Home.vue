@@ -2,9 +2,10 @@
   <div class="container">
     <Nav class="nav"/>
     <NewPost class="new"/>
-        Feed
-    <a href="#"><p class="notification" @click="resetNew" v-if="newPost.length > 0">{{ newPost.length }} new posts</p></a>
+    <a href="#"><p class="notification" @click="resetNew" v-if="newPost.length > 0">{{ newPost.length }} new posts</p>
+    </a>
     <div class="body">
+      <h2>Feed</h2>
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false"
             :is-liked="post.isLiked" :profile-pic="post.profilePic">{{ post }}
@@ -25,10 +26,6 @@ export default {
   components: {Nav, Post, NewPost},
   async mounted() {
     // this.socket = io.connect('http://localhost:5000')
-    socket.on('my_response', (data) => {
-      console.log(data)
-    })
-    // this.socket.emit('online', this.$store.state.uid)
     socket.on(this.$store.state.uid, async (data) => {
       this.offset += 1
       await this.getPost(data.postID, true)
@@ -82,7 +79,7 @@ export default {
     },
     scroll() {
       window.onscroll = async () => {
-        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
+        let bottomOfWindow = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
 
         if (bottomOfWindow) {
           this.offset += 10
@@ -118,7 +115,11 @@ export default {
   color: black;
   padding: 5px;
 }
+
 p {
   margin: auto;
+}
+h2 {
+  margin-top: 2px;
 }
 </style>

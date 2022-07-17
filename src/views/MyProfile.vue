@@ -4,6 +4,7 @@
     <NewPost/>
 
     <div class="body">
+      <h2>My Profile</h2>
       <a href="#" @click="edit">Edit Profile &nbsp;<b-icon icon="pen" scale="0.9"></b-icon>
       </a>
 
@@ -196,5 +197,8 @@ button {
 .pic {
   display: block;
   margin: auto auto 10px 41%;
+}
+h2 {
+  margin: 2px;
 }
 </style>

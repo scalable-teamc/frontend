@@ -2,8 +2,8 @@
   <div class="container">
     <Nav class="nav"/>
     <NewPost class="new"/>
-    Archive
     <div class="body">
+      <h2>Archive</h2>
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="true"
             :is-liked="post.isLiked">{{ post }}
@@ -80,5 +80,8 @@ export default {
   margin: 0px 50px 0px 150px;
   min-height: 100vh;
   padding: 10px;
+}
+h2 {
+  margin-top: 2px;
 }
 </style>

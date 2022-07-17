@@ -23,6 +23,7 @@
 <script>
 import Vue from "vue";
 import store from "@/store";
+import {socket} from "@/socket/io";
 
 export default {
   data() {
@@ -48,6 +49,10 @@ export default {
           "follower": profile.data.follower
         });
         console.log(profile)
+        socket.on('my_response', (data) => {
+          console.log(data)
+        })
+        socket.emit('online', this.$store.state.uid)
         this.$router.push("/home")
       } else {
         alert(response.data.message)

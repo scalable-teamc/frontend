@@ -108,10 +108,11 @@ export default {
 }
 
 .icon {
-  padding: 2px;
   margin: auto;
   font-size: 50px;
   color: white;
+  position: relative;
+  top: -2px
 }
 
 .new {
