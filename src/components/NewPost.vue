@@ -24,7 +24,7 @@
 
 <script>
 import Vue from "vue";
-import io from "socket.io-client";
+import {socket} from "@/socket/io.js"
 
 export default {
   data() {
@@ -34,7 +34,7 @@ export default {
     }
   },
   mounted() {
-    this.socket = io.connect('http://localhost:5000')
+    // this.socket = io.connect('http://localhost:5000')
   },
   methods: {
     async post() {
@@ -76,7 +76,7 @@ export default {
         let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
         let data = {"to": this.$store.state.follower[index], "postID": postID, "date": date}
         console.log(data)
-        this.socket.emit('broadcast_message', data)
+        socket.emit('broadcast_message', data)
       }
     }
   }

@@ -7,7 +7,7 @@
     <div class="body">
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false"
-            :is-liked="post.isLiked">{{ post }}
+            :is-liked="post.isLiked" :profile-pic="post.profilePic">{{ post }}
       </Post>
     </div>
     ©
@@ -18,18 +18,19 @@
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
-import io from "socket.io-client";
 import Vue from "vue";
+import {socket} from "@/socket/io.js"
 
 export default {
   components: {Nav, Post, NewPost},
   async mounted() {
-    this.socket = io.connect('http://localhost:5000')
-    this.socket.on('my_response', (data) => {
+    // this.socket = io.connect('http://localhost:5000')
+    socket.on('my_response', (data) => {
       console.log(data)
     })
     // this.socket.emit('online', this.$store.state.uid)
-    this.socket.on(this.$store.state.uid, async (data) => {
+    socket.on(this.$store.state.uid, async (data) => {
+      this.offset += 1
       await this.getPost(data.postID, true)
     })
 
@@ -56,6 +57,7 @@ export default {
         "postID": postID,
         "username": user.data.username,
         "name": user.data.display_name,
+        "profilePic": user.data.picture,
         "createdAt": content.data.createdAt,
         "content": content.data.content,
         "image": content.data.image,
