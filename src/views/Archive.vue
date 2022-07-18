@@ -8,8 +8,11 @@
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="true"
             :is-liked="post.isLiked">{{ post }}
       </Post>
+      <div class="bottom">
+        <Circle8 class="bottom" v-show="bottom"></Circle8>
+      </div>
     </div>
-    ©
+    <Circle8 class="center" v-show="center"></Circle8>
   </div>
 </template>
 
@@ -18,20 +21,24 @@ import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
 import Vue from "vue";
+import {Circle8} from 'vue-loading-spinner'
 
 export default {
-  components: {Nav, Post, NewPost},
-  async created() {
+  components: {Nav, Post, NewPost, Circle8},
+  async mounted() {
     let response = await Vue.axios.post("http://localhost:8084/profile/archive", {"uid": this.$store.state.uid,})
     this.all = response.data
     this.posts = await this.loadPosts()
+    this.center = false
     this.scroll()
   },
   data() {
     return {
       all: [],
       posts: [],
-      offset: 0
+      offset: 0,
+      center: true,
+      bottom: false
     }
   },
   methods: {
@@ -49,9 +56,12 @@ export default {
         "isLiked": content.data.isLiked
       }
     },
-    async loadPosts() {
+    async loadPosts(more) {
       let temp = []
       let slice = this.all.slice(this.offset, this.offset + 10)
+      if (slice.length > 0 && more) {
+        this.bottom = true
+      }
       for (let index in slice) {
         temp.push(await this.getPost(slice[index]))
       }
@@ -60,12 +70,12 @@ export default {
     scroll() {
       window.onscroll = async () => {
         let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
-
         if (bottomOfWindow) {
           this.offset += 10
-          let more = await this.loadPosts()
+          let more = await this.loadPosts(true)
           if (more) {
             this.posts.push(...more)
+            this.bottom = false
           }
         }
       }
@@ -83,5 +93,18 @@ export default {
 }
 h2 {
   margin-top: 2px;
+}
+.center {
+  position: absolute;
+  top: 50%;
+  left: 47%;
+}
+
+.bottom {
+  position: -webkit-sticky;
+  position: sticky;
+  height: 50px;
+  width: fit-content;
+  left: 47%;
 }
 </style>

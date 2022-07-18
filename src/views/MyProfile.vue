@@ -4,7 +4,6 @@
     <NewPost/>
 
     <div class="body">
-      <h2>My Profile</h2>
       <a href="#" @click="edit">Edit Profile &nbsp;<b-icon icon="pen" scale="0.9"></b-icon>
       </a>
 
@@ -36,7 +35,11 @@
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false"
             :is-liked="post.isLiked" :profile-pic="post.profilePic">{{ post }}
       </Post>
+      <div class="bottom">
+        <Circle8 class="bottom" v-show="bottom"></Circle8>
+      </div>
     </div>
+    <Circle8 class="center" v-show="center"></Circle8>
   </div>
 </template>
 
@@ -46,6 +49,7 @@ import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
 import Vue from "vue";
 import store from "@/store";
+import {Circle8} from 'vue-loading-spinner'
 
 export default {
   data() {
@@ -56,10 +60,12 @@ export default {
       image: null,
       all: null,
       posts: [],
-      offset: 0
+      offset: 0,
+      center: true,
+      bottom: false
     }
   },
-  components: {Nav, Post, NewPost},
+  components: {Nav, Post, NewPost, Circle8},
   async mounted() {
     let follow = await Vue.axios.post("http://localhost:8084/profile/getfollow", {"uid": this.$store.state.uid})
     await this.$store.dispatch("setFollow", follow.data)
@@ -67,6 +73,7 @@ export default {
     let postRes = await Vue.axios.get("http://localhost:5466/user-post/" + this.$store.state.uid)
     this.all = postRes.data
     this.posts = await this.loadPosts()
+    this.center = false
     this.scroll()
   },
   methods: {
@@ -127,9 +134,12 @@ export default {
         "isLiked": content.data.isLiked
       }
     },
-    async loadPosts() {
+    async loadPosts(more) {
       let temp = []
       let slice = this.all.slice(this.offset, this.offset + 10)
+      if (slice.length > 0 && more) {
+        this.bottom = true
+      }
       for (let index in slice) {
         temp.push(await this.getPost(slice[index]))
       }
@@ -141,9 +151,10 @@ export default {
 
         if (bottomOfWindow) {
           this.offset += 10
-          let more = await this.loadPosts()
+          let more = await this.loadPosts(true)
           if (more) {
             this.posts.push(...more)
+            this.bottom = false
           }
         }
       }
@@ -198,7 +209,17 @@ button {
   display: block;
   margin: auto auto 10px 41%;
 }
-h2 {
-  margin: 2px;
+.center {
+  position: absolute;
+  top: 50%;
+  left: 47%;
+}
+
+.bottom {
+  position: -webkit-sticky;
+  position: sticky;
+  height: 50px;
+  width: fit-content;
+  left: 47%;
 }
 </style>

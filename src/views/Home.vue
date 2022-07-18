@@ -10,8 +10,11 @@
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="false"
             :is-liked="post.isLiked" :profile-pic="post.profilePic">{{ post }}
       </Post>
+      <div class="bottom">
+        <Circle8 class="bottom" v-show="bottom"></Circle8>
+      </div>
     </div>
-    ©
+    <Circle8 class="center" v-show="center"></Circle8>
   </div>
 </template>
 
@@ -21,9 +24,10 @@ import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
 import Vue from "vue";
 import {socket} from "@/socket/io.js"
+import {Circle8} from 'vue-loading-spinner'
 
 export default {
-  components: {Nav, Post, NewPost},
+  components: {Nav, Post, NewPost, Circle8},
   async mounted() {
     // this.socket = io.connect('http://localhost:5000')
     socket.on(this.$store.state.uid, async (data) => {
@@ -32,13 +36,16 @@ export default {
     })
 
     this.posts = await this.loadPosts()
+    this.center = false
     this.scroll()
   },
   data() {
     return {
       posts: [],
       offset: 0,
-      newPost: []
+      newPost: [],
+      center: true,
+      bottom: false
     }
   },
   methods: {
@@ -66,12 +73,15 @@ export default {
         return post
       }
     },
-    async loadPosts() {
+    async loadPosts(more) {
       let feed = await Vue.axios.post("http://localhost:5000/feed/all", {
         "uid": this.$store.state.uid,
         "offset": this.offset
       })
       let temp = []
+      if (feed.data.length > 0 && more) {
+        this.bottom = true
+      }
       for (let index in feed.data) {
         temp.push(await this.getPost(feed.data[index], false))
       }
@@ -80,12 +90,12 @@ export default {
     scroll() {
       window.onscroll = async () => {
         let bottomOfWindow = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
-
         if (bottomOfWindow) {
           this.offset += 10
-          let more = await this.loadPosts()
+          let more = await this.loadPosts(true)
           if (more.length > 0) {
             this.posts.push(...more)
+            this.bottom = false
           }
         }
       }
@@ -119,7 +129,22 @@ export default {
 p {
   margin: auto;
 }
+
 h2 {
   margin-top: 2px;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 47%;
+}
+
+.bottom {
+  position: -webkit-sticky;
+  position: sticky;
+  height: 50px;
+  width: fit-content;
+  left: 47%;
 }
 </style>
