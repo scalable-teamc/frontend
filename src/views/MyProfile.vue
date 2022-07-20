@@ -118,7 +118,7 @@ export default {
         "image": this.image,
         "desc": this.new_desc,
       })
-      let response = await Vue.axios.post("/profile/save", data)
+      let response = await axios.post("/profile/save", data)
       this.editMode = false
     },
     async getPost(postID) {
