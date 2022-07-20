@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import Vue from "vue";
 import Nav from "../components/Nav.vue"
+import axios from "axios";
 
 export default {
   mounted() {
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     async search() {
-      let response = await Vue.axios.post("http://localhost:8084/profile/getuser", {"username": this.find})
+      let response = await axios.post("http://localhost:8084/profile/getuser", {"username": this.find})
       let user = response.data
       if (user.display_name) {
         this.found = true
@@ -55,7 +55,7 @@ export default {
       console.log(user)
     },
     async unfollow() {
-      await Vue.axios.patch("http://localhost:8084/profile/unfollow", {
+      await axios.patch("http://localhost:8084/profile/unfollow", {
         "uid": this.$store.state.uid,
         "remove_id": this.uid
       })
@@ -63,14 +63,14 @@ export default {
     },
     async follow() {
       console.log(this.$store.state.uid)
-      await Vue.axios.post("http://localhost:8084/profile/follow", {
+      await axios.post("http://localhost:8084/profile/follow", {
         "uid": this.$store.state.uid,
         "following_id": this.uid
       })
       await this.updateFollow()
     },
     async updateFollow() {
-      let follow = await Vue.axios.post("http://localhost:8084/profile/getfollow", {"uid": this.$store.state.uid})
+      let follow = await axios.post("http://localhost:8084/profile/getfollow", {"uid": this.$store.state.uid})
       await this.$store.dispatch("setFollow", follow.data)
     },
     toProfile(uid, username) {

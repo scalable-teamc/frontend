@@ -55,6 +55,7 @@ export default {
         "following": [],
         "follower": []
       });
+      sessionStorage.removeItem("token")
       this.$router.replace("/login")
     }
   }

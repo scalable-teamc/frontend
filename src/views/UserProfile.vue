@@ -27,8 +27,7 @@
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
-import Vue from "vue";
-import store from "@/store";
+import axios from "axios"
 
 export default {
   props: ["uid", "username"],
@@ -55,8 +54,8 @@ export default {
     }
   },
   components: {Nav, Post, NewPost},
-  async created() {
-    let profile = await Vue.axios.post("http://localhost:8084/profile/getprof", {
+  async mounted() {
+    let profile = await axios.post("http://localhost:8084/profile/getprof", {
       "uid": this.uid,
       "username": this.username
     });
@@ -67,16 +66,16 @@ export default {
     this.following = profile.data.following
     this.follower = profile.data.follower
 
-    let postRes = await Vue.axios.get("http://localhost:5466/user-post/" + this.uid)
+    let postRes = await axios.get("http://localhost:5466/user-post/" + this.uid)
     this.all = postRes.data
     this.posts = await this.loadPosts()
     this.scroll()
   },
   methods: {
     async getPost(postID) {
-      let content = await Vue.axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
+      let content = await axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
-      let user = await Vue.axios.get("http://localhost:8084/profile/getshort/" + op)
+      let user = await axios.get("http://localhost:8084/profile/getshort/" + op)
       return {
         "postID": postID,
         "username": user.data.username,

@@ -47,9 +47,9 @@
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
-import Vue from "vue";
 import store from "@/store";
 import {Circle8} from 'vue-loading-spinner'
+import axios from "axios";
 
 export default {
   data() {
@@ -67,10 +67,10 @@ export default {
   },
   components: {Nav, Post, NewPost, Circle8},
   async mounted() {
-    let follow = await Vue.axios.post("http://localhost:8084/profile/getfollow", {"uid": this.$store.state.uid})
+    let follow = await axios.post("http://localhost:8084/profile/getfollow", {"uid": this.$store.state.uid})
     await this.$store.dispatch("setFollow", follow.data)
 
-    let postRes = await Vue.axios.get("http://localhost:5466/user-post/" + this.$store.state.uid)
+    let postRes = await axios.get("http://localhost:5466/user-post/" + this.$store.state.uid)
     this.all = postRes.data
     this.posts = await this.loadPosts()
     this.center = false

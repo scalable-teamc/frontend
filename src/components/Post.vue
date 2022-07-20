@@ -26,6 +26,7 @@
 
 <script>
 import Vue from "vue";
+import axios from "axios";
 
 export default {
   props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved", "isLiked", "profilePic"],
@@ -53,9 +54,9 @@ export default {
       let data = {"userID": this.$store.state.uid, "postID": this.postID}
       console.log(data)
       if (this.like) {
-        await Vue.axios.post("http://localhost:5466/like", data)
+        await axios.post("http://localhost:5466/like", data)
       } else {
-        await Vue.axios.post("http://localhost:5466/unlike", data)
+        await axios.post("http://localhost:5466/unlike", data)
       }
     }
   }

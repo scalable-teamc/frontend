@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import Vue from "vue";
 import {socket} from "@/socket/io.js"
+import axios from "axios";
 
 export default {
   data() {
@@ -32,9 +32,6 @@ export default {
       text: null,
       image: null
     }
-  },
-  mounted() {
-    // this.socket = io.connect('http://localhost:5000')
   },
   methods: {
     async post() {
@@ -55,7 +52,7 @@ export default {
         "type": ctype,
         "mediaID": 0
       }
-      let response = await Vue.axios.post("http://localhost:5466/post", data)
+      let response = await axios.post("http://localhost:5466/post", data)
       this.sendToFollower(response.data)
       this.$modal.hide('post')
       this.text = null

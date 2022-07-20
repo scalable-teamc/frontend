@@ -24,6 +24,7 @@
 import Vue from "vue";
 import store from "@/store";
 import {socket} from "@/socket/io";
+import axios from "axios";
 
 export default {
   data() {
@@ -35,9 +36,11 @@ export default {
   methods: {
     async login() {
       let cred = {"username": this.username, "password": this.password}
-      let response = await Vue.axios.post("http://localhost:8082/auth/login", cred)
+      let response = await axios.post("http://localhost:8082/auth/login", cred)
       if (response.data.success) {
-        let profile = await Vue.axios.post("http://localhost:8084/profile/getprof", {"uid": response.data.uid, "username": this.username});
+        sessionStorage.setItem("token", response.data.token)
+        axios.defaults.headers.common['Authorization'] = response.data.token
+        let profile = await axios.post("http://localhost:8084/profile/getprof", {"uid": response.data.uid, "username": this.username});
         await store.dispatch("setLoggedInUser", {
           "loggedIn": true,
           "uid": response.data.uid,
@@ -57,7 +60,7 @@ export default {
       } else {
         alert(response.data.message)
       }
-    }
+    },
   }
 }
 </script>

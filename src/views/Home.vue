@@ -22,14 +22,15 @@
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
-import Vue from "vue";
 import {socket} from "@/socket/io.js"
 import {Circle8} from 'vue-loading-spinner'
+import axios from "axios";
 
 export default {
   components: {Nav, Post, NewPost, Circle8},
   async mounted() {
     // this.socket = io.connect('http://localhost:5000')
+    console.log(sessionStorage.getItem('token'))
     socket.on(this.$store.state.uid, async (data) => {
       this.offset += 1
       await this.getPost(data.postID, true)
@@ -54,9 +55,9 @@ export default {
       this.newPost = []
     },
     async getPost(postID, isNew) {
-      let content = await Vue.axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
+      let content = await axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
-      let user = await Vue.axios.get("http://localhost:8084/profile/getshort/" + op)
+      let user = await axios.get("http://localhost:8084/profile/getshort/" + op)
       let post = {
         "postID": postID,
         "username": user.data.username,
@@ -74,7 +75,7 @@ export default {
       }
     },
     async loadPosts(more) {
-      let feed = await Vue.axios.post("http://localhost:5000/feed/all", {
+      let feed = await axios.post("http://localhost:5000/feed/all", {
         "uid": this.$store.state.uid,
         "offset": this.offset
       })
@@ -119,8 +120,8 @@ export default {
   float: top;
   position: -webkit-sticky;
   position: sticky;
-  top: 20px;
-  margin: auto;
+  top: 15px;
+  margin: auto auto auto 45%;
   border-radius: 10px;
   color: black;
   padding: 5px;

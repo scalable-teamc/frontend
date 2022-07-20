@@ -9,6 +9,7 @@ import VModal from 'vue-js-modal'
 
 
 Vue.config.productionTip = false
+axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token')
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
