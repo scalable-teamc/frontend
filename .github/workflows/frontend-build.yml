@@ -26,8 +26,8 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build . --file .../Dockerfile \
-        --tag ghcr.io/${{ env.BASE_IMG_NAME }}/[Image_name]frontend:${{ steps.vars.outputs.sha_short }} \
-        --tag ghcr.io/${{ env.BASE_IMG_NAME }}/[Image_name]frontend:latest
+        --tag ghcr.io/${{ env.BASE_IMG_NAME }}/frontend:${{ steps.vars.outputs.sha_short }} \
+        --tag ghcr.io/${{ env.BASE_IMG_NAME }}/frontend:latest
     - name: Publish the images
       run: |
         docker push ghcr.io/${{ env.BASE_IMG_NAME }}/frontend:${{ steps.vars.outputs.sha_short }}
