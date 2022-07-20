@@ -55,9 +55,12 @@ export default {
       this.newPost = []
     },
     async getPost(postID, isNew) {
-      let content = await axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
+      const profileURI = "/profile"
+      const getURI = "/get"
+      // let content = await axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
+      let content = await axios.get(getURI + "/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
-      let user = await axios.get("http://localhost:8084/profile/getshort/" + op)
+      let user = await axios.get(profileURI + "/getshort/" + op)
       let post = {
         "postID": postID,
         "username": user.data.username,
@@ -75,7 +78,8 @@ export default {
       }
     },
     async loadPosts(more) {
-      let feed = await axios.post("http://localhost:5000/feed/all", {
+      const feedURI = "/feed/all"
+      let feed = await axios.post(feedURI, {
         "uid": this.$store.state.uid,
         "offset": this.offset
       })

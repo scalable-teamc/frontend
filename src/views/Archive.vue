@@ -20,13 +20,14 @@
 import Nav from "../components/Nav.vue"
 import Post from "../components/Post.vue"
 import NewPost from "../components/NewPost.vue"
-import Vue from "vue";
 import {Circle8} from 'vue-loading-spinner'
+import axios from "axios";
 
 export default {
   components: {Nav, Post, NewPost, Circle8},
   async mounted() {
-    let response = await Vue.axios.post("http://localhost:8084/profile/archive", {"uid": this.$store.state.uid,})
+    const profileURI = "/profile"
+    let response = await axios.post(profileURI + "/archive", {"uid": this.$store.state.uid,})
     this.all = response.data
     this.posts = await this.loadPosts()
     this.center = false
@@ -43,9 +44,12 @@ export default {
   },
   methods: {
     async getPost(postID) {
-      let content = await Vue.axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
+      const profileURI = "/profile"
+      const getURI = "/get"
+      // let content = await Vue.axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
+      let content = await axios.get(getURI + "/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
-      let user = await Vue.axios.get("http://localhost:8084/profile/getshort/" + op)
+      let user = await axios.get(profileURI + "/getshort/" + op)
       return {
         "postID": postID,
         "username": user.data.username,

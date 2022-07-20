@@ -35,6 +35,7 @@ export default {
   },
   methods: {
     async post() {
+      const postURI = "/post"
       let img = ""
       let ctype = ""
       if (this.image) {
@@ -52,7 +53,8 @@ export default {
         "type": ctype,
         "mediaID": 0
       }
-      let response = await axios.post("http://localhost:5466/post", data)
+      // let response = await axios.post("http://localhost:5466/post", data)
+      let response = await axios.post(postURI, data)
       this.sendToFollower(response.data)
       this.$modal.hide('post')
       this.text = null

@@ -41,22 +41,29 @@ export default {
   },
   methods: {
     async savePost() {
+      const profileAPI = "/profile"
       this.save = !this.save
       let data = {"uid": this.$store.state.uid, "post_id": this.postID}
       if (this.save) {
-        await Vue.axios.post("http://localhost:8084/profile/savedPost", data)
+        // await Vue.axios.post("http://localhost:8084/profile/savedPost", data)
+        await Vue.axios.post(profileAPI + "/savedPost", data)
       } else {
-        await Vue.axios.patch("http://localhost:8084/profile/unsavedPost", data)
+        // await Vue.axios.patch("http://localhost:8084/profile/unsavedPost", data)
+        await Vue.axios.patch(profileAPI + "/unsavedPost", data)
       }
     },
     async likePost() {
+      const likeURI = "/like"
+      const unlikeURI = "/unlike"
       this.like = !this.like
       let data = {"userID": this.$store.state.uid, "postID": this.postID}
       console.log(data)
       if (this.like) {
-        await axios.post("http://localhost:5466/like", data)
+        // await axios.post("http://localhost:5466/like", data)
+        await axios.post(likeURI, data)
       } else {
-        await axios.post("http://localhost:5466/unlike", data)
+        // await axios.post("http://localhost:5466/unlike", data)
+        await axios.post(unlikeURI, data)
       }
     }
   }

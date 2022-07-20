@@ -34,12 +34,16 @@ export default {
   },
   methods: {
     async login() {
+      const authURI = "/auth/login"
+      const profileURI = "/profile"
       let cred = {"username": this.username, "password": this.password}
-      let response = await axios.post("http://localhost:8082/auth/login", cred)
+      // let response = await axios.post("http://localhost:8082/auth/login", cred)
+      let response = await axios.post(authURI, cred)
       if (response.data.success) {
         sessionStorage.setItem("token", response.data.token)
         axios.defaults.headers.common['Authorization'] = response.data.token
-        let profile = await axios.post("http://localhost:8084/profile/getprof", {"uid": response.data.uid, "username": this.username});
+        // let profile = await axios.post("http://localhost:8084/profile/getprof", {"uid": response.data.uid, "username": this.username});
+        let profile = await axios.post(profileURI + "/getprof", {"uid": response.data.uid, "username": this.username});
         await store.dispatch("setLoggedInUser", {
           "loggedIn": true,
           "uid": response.data.uid,

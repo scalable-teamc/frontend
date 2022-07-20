@@ -67,10 +67,12 @@ export default {
   },
   components: {Nav, Post, NewPost, Circle8},
   async mounted() {
-    let follow = await axios.post("http://localhost:8084/profile/getfollow", {"uid": this.$store.state.uid})
+    const profileURI = "/profile"
+    const getURI = "/user-post"
+    let follow = await axios.post("/profile/getfollow", {"uid": this.$store.state.uid})
     await this.$store.dispatch("setFollow", follow.data)
 
-    let postRes = await axios.get("http://localhost:5466/user-post/" + this.$store.state.uid)
+    let postRes = await axios.get("/user-post/" + this.$store.state.uid)
     this.all = postRes.data
     this.posts = await this.loadPosts()
     this.center = false
@@ -116,13 +118,13 @@ export default {
         "image": this.image,
         "desc": this.new_desc,
       })
-      let response = await Vue.axios.post("http://localhost:8084/profile/save", data)
+      let response = await Vue.axios.post("/profile/save", data)
       this.editMode = false
     },
     async getPost(postID) {
-      let content = await axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
+      let content = await axios.get("/get/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
-      let user = await axios.get("http://localhost:8084/profile/getshort/" + op)
+      let user = await axios.get("/profile/getshort/" + op)
       return {
         "postID": postID,
         "username": user.data.username,

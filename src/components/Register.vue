@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import Vue from "vue";
+
+import axios from "axios";
 
 export default {
   data() {
@@ -50,13 +51,14 @@ export default {
   },
   methods: {
     async signUp() {
+      const authURI = "/auth"
       if (this.password !== this.cpassword) {
         alert("Passwords have to match")
       } else if (!this.name) {
         alert("Display name cannot be empty")
       } else {
         let cred = {"username": this.username, "password": this.password}
-        let response = await Vue.axios.post("http://localhost:8082/auth/register", cred)
+        let response = await axios.post(authURI + "/register", cred)
         if (response.data.success) {
           this.$store.state.uid = response.data.uid
           await this.createProfile()
@@ -65,8 +67,10 @@ export default {
       }
     },
     async createProfile() {
+      const profileURI = "/profile"
       let data = {"uid": this.$store.state.uid, "username": this.username, "image": "", "type": "", "display_name": this.name, "description": ""}
-      let response = await Vue.axios.post("http://localhost:8084/profile/save", data)
+      // let response = await axios.post("http://localhost:8084/profile/save", data)
+      let response = await axios.post(profileURI + "/save", data)
       this.username = ""
       this.password = ""
       this.cpassword = ""
