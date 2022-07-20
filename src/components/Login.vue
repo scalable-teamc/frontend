@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import store from "@/store";
 import {socket} from "@/socket/io";
 import axios from "axios";

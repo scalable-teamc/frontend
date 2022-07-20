@@ -120,9 +120,9 @@ export default {
       this.editMode = false
     },
     async getPost(postID) {
-      let content = await Vue.axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
+      let content = await axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
-      let user = await Vue.axios.get("http://localhost:8084/profile/getshort/" + op)
+      let user = await axios.get("http://localhost:8084/profile/getshort/" + op)
       return {
         "postID": postID,
         "username": user.data.username,
