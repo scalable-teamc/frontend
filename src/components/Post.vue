@@ -6,7 +6,7 @@
         <img :src="profilePic" width="50px" v-else>
         <p>{{ name }}@{{ username }}</p>
       </div>
-      <span class="time">{{ createdAt }}</span>
+      <span class="time">{{ localTime }}</span>
     </div>
     <div class="content">
       <p>{{ content }}</p>
@@ -32,11 +32,13 @@ export default {
   props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved", "isLiked", "profilePic"],
   mounted() {
     this.save = this.isSaved
+    this.localTime = new Date(this.createdAt)
   },
   data() {
     return {
       like: this.isLiked,
-      save: false
+      save: false,
+      localTime: null
     }
   },
   methods: {
