@@ -32,7 +32,7 @@ export default {
   props: ["postID", "username", "name", "createdAt", "content", "image", "isSaved", "isLiked", "profilePic"],
   mounted() {
     this.save = this.isSaved
-    this.localTime = new Date(this.createdAt)
+    this.localTime = new Date(this.createdAt).toLocaleString()
   },
   data() {
     return {

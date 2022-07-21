@@ -13,8 +13,8 @@
           <p>{{ name }} @ {{ username }}</p>
         </div>
         <div class="buttons">
-          <button class="unfollow" @click="unfollow">unfollow</button>
-          <button class="follow" @click="follow">follow</button>
+          <button class="unfollow" @click="unfollow" :disabled="!following">unfollow</button>
+          <button class="follow" @click="follow" :disabled="following">follow</button>
           <button class="profile" @click="toProfile(uid, username)">Profile</button>
         </div>
       </div>
@@ -79,6 +79,9 @@ export default {
         path: "/user-profile/" + uid,
         params: {uid: uid, username: username}
       })
+    },
+    following() {
+      return this.uid in this.$store.state.following
     }
   }
 }
@@ -121,5 +124,9 @@ button {
 
 .search svg {
   margin: auto;
+}
+
+button:disabled {
+  background-color: #949494;
 }
 </style>
