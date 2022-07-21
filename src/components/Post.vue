@@ -90,7 +90,7 @@ export default {
 .time {
   position: relative;
   top: -40px;
-  left: 80%;
+  left: 90%;
 }
 
 .content {

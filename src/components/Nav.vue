@@ -2,19 +2,13 @@
   <div class="container">
     <ul>
       <li class="icon">
-        <div class="rounded"><img src="../assets/tweetie1.png" class="logo"/></div>
+        <a href="#"><div class="rounded"><img src="../assets/tweetie1.png" class="logo"/></div></a>
       </li>
       <li>
         <router-link to="/home">
           <b-icon icon="house"></b-icon>
         </router-link>
       </li>
-      <!--      <li>-->
-      <!--        <b-icon icon="bell"></b-icon>-->
-      <!--      </li>-->
-      <!--      <li>-->
-      <!--        <b-icon icon="envelope"></b-icon>-->
-      <!--      </li>-->
       <li>
         <router-link to="/search">
           <b-icon icon="search" @click="$modal.show('follow')"></b-icon>

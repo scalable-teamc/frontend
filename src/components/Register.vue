@@ -117,4 +117,7 @@ button {
   top: -45%;
   left: 10%;
 }
+button {
+  cursor: pointer;
+}
 </style>

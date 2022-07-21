@@ -72,6 +72,7 @@ export default {
     async updateFollow() {
       let follow = await axios.post("/profile/getfollow", {"uid": this.$store.state.uid})
       await this.$store.dispatch("setFollow", follow.data)
+      this.$forceUpdate()
     },
     toProfile(uid, username) {
       this.$router.push({
@@ -127,6 +128,6 @@ button {
 }
 
 button:disabled {
-  background-color: #949494;
+  cursor: default;
 }
 </style>
