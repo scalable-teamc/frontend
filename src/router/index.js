@@ -68,10 +68,10 @@ router.beforeEach(async (to, from, next) => {
         // redirect to login page
         next({name: "Login"});
     } else if (isValidJwt(token) && !isLoggedIn) {
-            let response = await axios.post("http://localhost:8082/auth/token", {'token': token})
+            let response = await axios.post("/auth/token", {'token': token})
             console.log(response.data)
             if (response.data.success) {
-                let profile = await axios.post("http://localhost:8084/profile/getprof", {
+                let profile = await axios.post("/profile/getprof", {
                     "uid": response.data.uid,
                     "username": response.data.username
                 });

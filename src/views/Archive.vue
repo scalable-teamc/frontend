@@ -6,7 +6,7 @@
       <h2>Archive</h2>
       <Post v-for="post in posts" :key="post.postID" :postID="post.postID" :username="post.username" :name="post.name"
             :created-at="post.createdAt" :content="post.content" :image="post.image" :is-saved="true"
-            :is-liked="post.isLiked">{{ post }}
+            :is-liked="post.isLiked" :profile-pic="post.profilePic">{{ post }}
       </Post>
       <div class="bottom">
         <Circle8 class="bottom" v-show="bottom"></Circle8>
@@ -54,6 +54,7 @@ export default {
         "postID": postID,
         "username": user.data.username,
         "name": user.data.display_name,
+        "profilePic": user.data.picture,
         "createdAt": content.data.createdAt,
         "content": content.data.content,
         "image": content.data.image,
