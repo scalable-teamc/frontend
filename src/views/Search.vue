@@ -13,8 +13,8 @@
           <p>{{ name }} @ {{ username }}</p>
         </div>
         <div class="buttons">
-          <button class="unfollow" @click="unfollow" :disabled="!following || uid === $store.state.uid ||">unfollow</button>
-          <button class="follow" @click="follow" :disabled="following || uid === $store.state.uid ||">follow</button>
+          <button class="unfollow" @click="unfollow" :disabled="!following || uid === $store.state.uid ">unfollow</button>
+          <button class="follow" @click="follow" :disabled="following || uid === $store.state.uid ">follow</button>
           <button class="profile" @click="toProfile(uid, username)">Profile</button>
         </div>
       </div>
