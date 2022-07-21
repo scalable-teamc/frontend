@@ -26,6 +26,9 @@ import {socket} from "@/socket/io";
 import axios from "axios";
 
 export default {
+  async mounted() {
+    await new Promise(r => setTimeout(r, 20000));
+  },
   data() {
     return {
       username: "",
