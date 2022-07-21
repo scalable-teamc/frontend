@@ -38,7 +38,8 @@ export default {
       username: "",
       name: "",
       image: "",
-      uid: null
+      uid: null,
+      following: false
     }
   },
   methods: {
@@ -52,7 +53,8 @@ export default {
         this.image = user.picture
         this.uid = user.uid
       }
-      this.$forceUpdate()
+      this.following = this.$store.state.following.includes(this.uid)
+      console.log(this.following)
       console.log(user)
     },
     async unfollow() {
@@ -73,7 +75,7 @@ export default {
     async updateFollow() {
       let follow = await axios.post("/profile/getfollow", {"uid": this.$store.state.uid})
       await this.$store.dispatch("setFollow", follow.data)
-      this.$forceUpdate()
+      this.following = this.$store.state.following.includes(this.uid)
     },
     toProfile(uid, username) {
       this.$router.push({
@@ -82,9 +84,6 @@ export default {
         params: {uid: uid, username: username}
       })
     },
-    following() {
-      return this.$store.state.following.includes(this.uid)
-    }
   }
 }
 </script>
