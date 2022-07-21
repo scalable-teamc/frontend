@@ -83,8 +83,7 @@ export default {
       })
     },
     following() {
-      console.log(this.uid in this.$store.state.following)
-      return this.uid in this.$store.state.following
+      return this.$store.state.following.includes(this.uid)
     }
   }
 }
