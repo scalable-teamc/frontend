@@ -53,8 +53,8 @@ export default {
       }
     },
     async likePost() {
-      const likeURI = "/like"
-      const unlikeURI = "/unlike"
+      const likeURI = "/post/like"
+      const unlikeURI = "/post/unlike"
       this.like = !this.like
       let data = {"userID": this.$store.state.uid, "postID": this.postID}
       console.log(data)

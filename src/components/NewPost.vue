@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     async post() {
-      const postURI = "/post"
+      const postURI = "/post/post"
       let img = ""
       let ctype = ""
       if (this.image) {

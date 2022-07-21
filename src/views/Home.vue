@@ -56,7 +56,7 @@ export default {
     },
     async getPost(postID, isNew) {
       const profileURI = "/profile"
-      const getURI = "/get"
+      const getURI = "/post/get"
       // let content = await axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
       let content = await axios.get(getURI + "/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID

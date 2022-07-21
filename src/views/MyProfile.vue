@@ -68,11 +68,11 @@ export default {
   components: {Nav, Post, NewPost, Circle8},
   async mounted() {
     const profileURI = "/profile"
-    const getURI = "/user-post"
+    const getURI = "/post/user-post"
     let follow = await axios.post("/profile/getfollow", {"uid": this.$store.state.uid})
     await this.$store.dispatch("setFollow", follow.data)
 
-    let postRes = await axios.get("/user-post/" + this.$store.state.uid)
+    let postRes = await axios.get("/post/user-post/" + this.$store.state.uid)
     this.all = postRes.data
     this.posts = await this.loadPosts()
     this.center = false
@@ -122,7 +122,7 @@ export default {
       this.editMode = false
     },
     async getPost(postID) {
-      let content = await axios.get("/get/" + postID + "/" + this.$store.state.uid)
+      let content = await axios.get("/post/get/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
       let user = await axios.get("/profile/getshort/" + op)
       return {

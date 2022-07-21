@@ -45,7 +45,7 @@ export default {
   methods: {
     async getPost(postID) {
       const profileURI = "/profile"
-      const getURI = "/get"
+      const getURI = "/post/get"
       // let content = await Vue.axios.get("http://localhost:5466/get/" + postID + "/" + this.$store.state.uid)
       let content = await axios.get(getURI + "/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID

@@ -66,14 +66,14 @@ export default {
     this.following = profile.data.following
     this.follower = profile.data.follower
 
-    let postRes = await axios.get("/user-post/" + this.uid)
+    let postRes = await axios.get("/post/user-post/" + this.uid)
     this.all = postRes.data
     this.posts = await this.loadPosts()
     this.scroll()
   },
   methods: {
     async getPost(postID) {
-      let content = await axios.get("/get/" + postID + "/" + this.$store.state.uid)
+      let content = await axios.get("/post/get/" + postID + "/" + this.$store.state.uid)
       let op = content.data.userID
       let user = await axios.get("/profile/getshort/" + op)
       return {
