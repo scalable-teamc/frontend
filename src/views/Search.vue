@@ -13,8 +13,8 @@
           <p>{{ name }} @ {{ username }}</p>
         </div>
         <div class="buttons">
-          <button class="unfollow" @click="unfollow" :disabled="!following">unfollow</button>
-          <button class="follow" @click="follow" :disabled="following">follow</button>
+          <button class="unfollow" @click="unfollow" :disabled="!following || uid === $store.state.uid ||">unfollow</button>
+          <button class="follow" @click="follow" :disabled="following || uid === $store.state.uid ||">follow</button>
           <button class="profile" @click="toProfile(uid, username)">Profile</button>
         </div>
       </div>
@@ -52,6 +52,7 @@ export default {
         this.image = user.picture
         this.uid = user.uid
       }
+      this.$forceUpdate()
       console.log(user)
     },
     async unfollow() {
@@ -82,6 +83,7 @@ export default {
       })
     },
     following() {
+      console.log(this.uid in this.$store.state.following)
       return this.uid in this.$store.state.following
     }
   }
