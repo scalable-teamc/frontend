@@ -54,8 +54,6 @@ export default {
         this.uid = user.uid
       }
       this.following = this.$store.state.following.includes(this.uid)
-      console.log(this.following)
-      console.log(user)
     },
     async unfollow() {
       await axios.patch("/profile/unfollow", {
@@ -129,5 +127,8 @@ button {
 
 button:disabled {
   cursor: default;
+}
+button:disabled:hover {
+  background-color: ghostwhite;
 }
 </style>
